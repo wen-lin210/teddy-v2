@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Alphabot Quản Lý</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="app-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>Alphabot <span style="color:var(--primary); font-size: 0.5em; vertical-align: super;">v2</span></h2>
+        <button id="btn-close-sidebar" class="mobile-only close-btn">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-target="dashboard">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+            <path d="M9 22V12h6v10"></path>
+          </svg>
+          Trang Chủ
+        </button>
+        <button class="nav-btn" data-target="appstate">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path>
+          </svg>
+          Cookie JS
+        </button>
+        <button class="nav-btn" data-target="commands">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path
+              d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z">
+            </path>
+            <path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"></path>
+          </svg>
+          Mã Lệnh
+        </button>
+        <button class="nav-btn" data-target="box">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Danh Sách Nhóm
+        </button>
+        <button class="nav-btn" data-target="settings">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"></path>
+            <path
+              d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z">
+            </path>
+          </svg>
+          Cấu Hình Bot
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <p class="author-title">Dev By NhatVu</p>
+        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 8px;">Version 1.0.0</p>
+        <div class="social-links-mini">
+          <a href="https://zalo.me/0348253995" title="Zalo" target="_blank" class="zalo-icon"><svg viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg></a>
+          <a href="https://www.facebook.com/vuminhnhat10092003" title="Facebook" target="_blank" class="fb-icon"><svg
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg></a>
+          <a href="https://www.youtube.com/@Nvstudio1508" title="YouTube" target="_blank" class="yt-icon"><svg
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+              </path>
+              <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+            </svg></a>
+          <a href="https://github.com/nhatvu2003" title="GitHub" target="_blank" class="gh-icon"><svg
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+              </path>
+            </svg></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MOBILE OVERLAY -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+
+      <!-- TOP HEADER -->
+      <header class="top-header glass-bg">
+        <div class="header-left">
+          <button id="btn-menu" class="mobile-only menu-btn">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <h1 id="page-title">Trang Chủ</h1>
+        </div>
+        <div id="status-badge" class="badge off">Đã Dừng</div>
+      </header>
+
+      <div class="content-container">
+        <!-- DASHBOARD -->
+        <main id="dashboard" class="page-view active">
+
+          <div class="metrics-grid">
+            <div class="metric-card glass-bg">
+              <div class="metric-icon" style="background: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+              </div>
+              <div class="metric-info">
+                <h3>Trạng Thái Hệ Thống</h3>
+                <p id="dashboard-status-text">Đang chờ khởi động...</p>
+              </div>
+            </div>
+
+            <div class="metric-card glass-bg">
+              <div class="metric-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--success);">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="metric-info">
+                <h3>Mã Nguồn Cốt Lõi</h3>
+                <p>Khả dụng / Tối ưu hoá</p>
+              </div>
+            </div>
+          </div>
+
+          <section class="card glass-bg">
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+              <h2>Bảng Điều Khiển Nhanh</h2>
+              <div class="action-buttons-group">
+                <button id="btn-start" class="btn primary small">▶ Khởi Động Bot</button>
+                <button id="btn-stop" class="btn danger small" disabled>⏹ Tắt Bot</button>
+              </div>
+            </div>
+
+            <div class="update-section">
+              <div class="update-info">
+                <strong>Phiên bản hiện tại:</strong> <span id="local-version-display"
+                  class="version-badge">v1.0.0</span>
+              </div>
+              <button id="btn-update" class="btn primary small">
+                🔄 Kiểm Tra Cập Nhật
+              </button>
+            </div>
+          </section>
+
+          <section class="card glass-bg">
+            <h2>Nhật Ký Dòng Lệnh Trực Tiếp</h2>
+            <div id="live-logs" class="log-viewer">Đang chờ bot khởi động...</div>
+          </section>
+        </main>
+
+        <!-- APPSTATE -->
+        <main id="appstate" class="page-view" style="display: none;">
+          <section class="card glass-bg">
+            <h2>Cấu Hình Facebook Cookie</h2>
+            <p class="subtitle">Dán mảng JSON Appstate của tài khoản Bot vào đây. Hãy cực kỳ cẩn thận không chia sẻ
+              cookie này với bất kỳ ai.</p>
+            <div id="appstate-warning" class="warning-alert"
+              style="display:none; background: #fee2e2; border: 1px solid #ef4444; color: #b91c1c; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+              ⚠️ Cảnh báo: Appstate hiện tại không hợp lệ, đang trống hoặc đã hết hạn! Vui lòng thay thế ngay lập tức.
+            </div>
+            <textarea id="appstate-editor" rows="12" placeholder="[ { 'key': 'c_user', 'value': '...' } ]"></textarea>
+            <button id="btn-save-appstate" class="btn primary mt-2" style="max-width: 250px;">💾 Lưu Trữ Cookie</button>
+          </section>
+        </main>
+
+        <!-- COMMANDS (CODE EDITOR) -->
+        <main id="commands" class="page-view" style="display: none;">
+          <section class="card glass-bg">
+            <h2>Thư Viện Mã Lệnh Modul</h2>
+            <p class="subtitle">Trình duyệt và chỉnh sửa trực tiếp các tệp tin trong hệ thống.</p>
+            <div class="file-browser" id="file-browser">
+              <p>Đang tải tệp tin hệ thống...</p>
+            </div>
+            <div id="editor-container" style="display:none; margin-top:20px;">
+              <div class="editor-header">
+                <h3 id="editing-filename" style="color: var(--primary);">filename.js</h3>
+                <button id="btn-close-editor" class="btn small" style="background: #e2e8f0; color: #475569;">✖ Đóng
+                  Tệp</button>
+              </div>
+              <textarea id="code-editor" class="code-textarea" rows="22" spellcheck="false"></textarea>
+              <button id="btn-save-code" class="btn primary mt-2" style="max-width: 250px;">💾 Lưu Mã Nguồn</button>
+            </div>
+          </section>
+        </main>
+
+        <!-- BOX MANAGEMENT -->
+        <main id="box" class="page-view" style="display: none;">
+          <section class="card glass-bg">
+            <h2>Quản Lý Nhóm & Thành Viên</h2>
+            <p class="subtitle">Danh sách các hộp thoại (box) mà bot đang túc trực hoạt động.</p>
+            <div id="thread-list" class="config-grid">
+              <p>Đang trích xuất dữ liệu mảng...</p>
+            </div>
+          </section>
+        </main>
+
+        <!-- CONFIG SETTINGS -->
+        <main id="settings" class="page-view" style="display: none;">
+          <section class="card glass-bg">
+            <h2>Cấu Hình Cốt Lõi Hệ Thống</h2>
+            <p class="subtitle">Giao diện đồ họa để chỉnh sửa các thông số kỹ thuật (config.main.json)</p>
+            <div id="dynamic-config-fields" class="config-grid">
+              <p>Đang tải dữ liệu cấu trúc bề mặt...</p>
+            </div>
+            <button id="btn-save-config" class="btn primary mt-2" style="max-width: 250px;">Tích Hợp Cấu Hình</button>
+          </section>
+        </main>
+      </div> <!-- /.content-container -->
+    </div> <!-- /.main-content -->
+  </div> <!-- /.app-wrapper -->
+
+  <!-- ACTIVATION VIEW OVERLAY -->
+  <div id="activation-view" class="activation-overlay"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 9999; background: var(--bg-main); justify-content: center; align-items: center;">
+    <div class="card glass-bg"
+      style="max-width: 450px; width: 90%; text-align: center; padding: 2.5rem; border-radius: 12px;">
+      <h2 style="color:var(--text-main); font-size:2rem; margin-bottom:5px; font-weight: 800;">Cài Đặt Lần Đầu</h2>
+      <p class="subtitle" style="margin-bottom: 25px;">Vui lòng nhập <strong style="color: var(--primary);">Key Kích
+          Hoạt</strong> định danh để tự động phân luồng tải nhân Bot.</p>
+
+      <input type="text" id="activation-key-input" placeholder="Nhập Key kích hoạt an toàn..."
+        style="margin-bottom: 25px; text-align: center; font-size: 1.1rem; letter-spacing: 2px;">
+
+      <div id="activation-progress" style="display: none; margin-bottom: 25px;">
+        <p id="activation-status-text" style="color: var(--primary); font-weight:600; margin-bottom: 8px;">Đang thiết
+          lập tiến trình...</p>
+        <div style="width: 100%; background: #e2e8f0; border-radius: 8px; height: 8px; overflow: hidden;">
+          <div id="activation-progress-bar"
+            style="width: 100%; background: var(--primary); height: 100%; animation: pulse 1s infinite;">
+          </div>
+        </div>
+      </div>
+
+      <button id="btn-activate" class="btn primary" style="padding: 1rem;">Xác Nhận & Thiết Lập</button>
+      <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 20px;">Đảm bảo kết nối internet ổn định trong lúc tải
+        xuống.</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Trạng thái đã được phản hồi</div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
