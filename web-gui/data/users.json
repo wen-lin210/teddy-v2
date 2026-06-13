@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": "owner_001",
+      "username": "Owner",
+      "email": "owner@example.com",
+      "tier": "owner",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "accounts": []
+    }
+  ]
+}

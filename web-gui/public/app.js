@@ -511,5 +511,128 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // ----- MUSIC PLAYER -----
+    const audioPlayer = document.getElementById('audio-player');
+    const playerTitle = document.getElementById('player-title');
+    const playerDuration = document.getElementById('player-duration');
+    const playerThumbnail = document.getElementById('player-thumbnail');
+    const btnPlay = document.getElementById('btn-play');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const progressSlider = document.getElementById('progress-slider');
+    const currentTimeDisplay = document.getElementById('current-time');
+    const totalTimeDisplay = document.getElementById('total-time');
+    const playlistContainer = document.getElementById('playlist-container');
+    const btnAddSong = document.getElementById('btn-add-song');
+
+    let playlist = [];
+    let currentIndex = 0;
+    let isPlaying = false;
+
+    const loadPlaylist = async () => {
+        try {
+            const res = await fetch('/api/music/playlist');
+            const data = await res.json();
+            playlist = data.songs || [];
+            currentIndex = data.currentIndex || 0;
+            renderPlaylist();
+            if (playlist.length > 0) loadTrack(currentIndex);
+        } catch (e) {
+            console.error('[v0] Error loading playlist:', e);
+        }
+    };
+
+    const renderPlaylist = () => {
+        playlistContainer.innerHTML = '';
+        if (playlist.length === 0) {
+            playlistContainer.innerHTML = '<p class="empty-state">Chưa có bài hát nào trong danh sách</p>';
+            return;
+        }
+        playlist.forEach((song, idx) => {
+            const item = document.createElement('div');
+            item.className = 'playlist-item' + (idx === currentIndex ? ' active' : '');
+            item.innerHTML = `
+                <img src="${song.thumbnail}" alt="Thumbnail" class="playlist-thumbnail">
+                <div class="playlist-info">
+                    <div class="playlist-title">${song.title}</div>
+                    <div class="playlist-duration">${formatTime(parseInt(song.duration) || 0)}</div>
+                </div>
+            `;
+            item.addEventListener('click', () => {
+                currentIndex = idx;
+                loadTrack(currentIndex);
+                play();
+                renderPlaylist();
+            });
+            playlistContainer.appendChild(item);
+        });
+    };
+
+    const loadTrack = (idx) => {
+        if (idx < 0 || idx >= playlist.length) return;
+        const track = playlist[idx];
+        playerTitle.textContent = track.title;
+        playerDuration.textContent = formatTime(parseInt(track.duration) || 0);
+        playerThumbnail.src = track.thumbnail;
+        totalTimeDisplay.textContent = formatTime(parseInt(track.duration) || 0);
+        
+        // For now, use a placeholder audio source - in production would need YouTube audio extraction
+        audioPlayer.src = '';
+        currentIndex = idx;
+    };
+
+    const play = () => {
+        isPlaying = true;
+        btnPlay.textContent = '⏸';
+        // Note: Actual playback would require server-side YouTube audio extraction
+        // For now, this is a UI-only implementation
+    };
+
+    const pause = () => {
+        isPlaying = false;
+        btnPlay.textContent = '▶';
+        audioPlayer.pause();
+    };
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
+    if (btnPlay) {
+        btnPlay.addEventListener('click', () => {
+            if (playlist.length === 0) {
+                showToast('Chưa có bài hát nào!');
+                return;
+            }
+            if (isPlaying) pause();
+            else play();
+        });
+    }
+
+    if (btnNext) {
+        btnNext.addEventListener('click', () => {
+            if (playlist.length === 0) return;
+            currentIndex = (currentIndex + 1) % playlist.length;
+            loadTrack(currentIndex);
+            play();
+            renderPlaylist();
+        });
+    }
+
+    if (btnPrev) {
+        btnPrev.addEventListener('click', () => {
+            if (playlist.length === 0) return;
+            currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentIndex);
+            play();
+            renderPlaylist();
+        });
+    }
+
+    // Load playlist on page load
+    loadPlaylist();
+
     initSystem();
 });

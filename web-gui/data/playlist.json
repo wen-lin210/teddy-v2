@@ -1,0 +1,12 @@
+{
+  "songs": [
+    {
+      "id": 1,
+      "title": "Sample Music",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+      "duration": "213"
+    }
+  ],
+  "currentIndex": 0
+}

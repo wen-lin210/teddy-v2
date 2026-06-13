@@ -1,0 +1,14 @@
+{
+  "keys": [
+    {
+      "id": "key_001",
+      "key": "MEMBER-STARTER-2024",
+      "tier": "member",
+      "createdBy": "owner_001",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "usedBy": null,
+      "usedAt": null,
+      "active": true
+    }
+  ]
+}

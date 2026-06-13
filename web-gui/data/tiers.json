@@ -1,0 +1,66 @@
+{
+  "member": {
+    "name": "Member",
+    "level": 1,
+    "features": {
+      "dashboard": true,
+      "viewMusic": true,
+      "viewCommands": true,
+      "editProfile": false,
+      "addMusic": false,
+      "generateKeys": false,
+      "manageUsers": false,
+      "editConfig": false,
+      "viewAppstate": false,
+      "editAppstate": false
+    }
+  },
+  "vip": {
+    "name": "VIP",
+    "level": 2,
+    "features": {
+      "dashboard": true,
+      "viewMusic": true,
+      "viewCommands": true,
+      "editProfile": true,
+      "addMusic": false,
+      "generateKeys": false,
+      "manageUsers": false,
+      "editConfig": false,
+      "viewAppstate": true,
+      "editAppstate": false
+    }
+  },
+  "admin": {
+    "name": "Admin",
+    "level": 3,
+    "features": {
+      "dashboard": true,
+      "viewMusic": true,
+      "viewCommands": true,
+      "editProfile": true,
+      "addMusic": false,
+      "generateKeys": true,
+      "manageUsers": true,
+      "editConfig": true,
+      "viewAppstate": true,
+      "editAppstate": true
+    }
+  },
+  "owner": {
+    "name": "Owner",
+    "level": 4,
+    "features": {
+      "dashboard": true,
+      "viewMusic": true,
+      "viewCommands": true,
+      "editProfile": true,
+      "addMusic": true,
+      "generateKeys": true,
+      "manageUsers": true,
+      "editConfig": true,
+      "viewAppstate": true,
+      "editAppstate": true
+    }
+  }
+}

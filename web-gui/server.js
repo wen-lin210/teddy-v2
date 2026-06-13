@@ -6,6 +6,7 @@ import { spawn, exec } from 'child_process';
 import { fileURLToPath } from 'url';
 import axios from 'axios';
 import AdmZip from 'adm-zip';
+import crypto from 'crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,6 +16,11 @@ const PORT = 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+
+// Helper paths
+const usersPath = path.resolve(__dirname, './data/users.json');
+const tiersPath = path.resolve(__dirname, './data/tiers.json');
+const keysPath = path.resolve(__dirname, './data/keys.json');
 
 let botProcess = null;
 
@@ -290,6 +296,235 @@ app.get('/api/threads', (req, res) => {
     try {
         if (!fs.existsSync(threadsPath)) return res.json({});
         res.json(JSON.parse(fs.readFileSync(threadsPath, 'utf8')));
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// ===== AUTHENTICATION & TIER SYSTEM =====
+
+// Helper to get user tier
+const getUserTier = (userId) => {
+    try {
+        if (!fs.existsSync(usersPath)) return null;
+        const data = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
+        return data.users.find(u => u.id === userId);
+    } catch (e) {
+        return null;
+    }
+};
+
+// Helper to load tiers
+const getTiers = () => {
+    try {
+        if (!fs.existsSync(tiersPath)) return {};
+        return JSON.parse(fs.readFileSync(tiersPath, 'utf8'));
+    } catch (e) {
+        return {};
+    }
+};
+
+// Auth middleware - check if user is authenticated
+const authMiddleware = (req, res, next) => {
+    const userId = req.headers['x-user-id'];
+    if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+    const user = getUserTier(userId);
+    if (!user) {
+        return res.status(401).json({ error: 'User not found' });
+    }
+    req.user = user;
+    next();
+};
+
+// Tier check middleware
+const tierCheck = (requiredTier) => {
+    return (req, res, next) => {
+        const tiers = getTiers();
+        const userTierLevel = tiers[req.user.tier]?.level || 0;
+        const requiredLevel = tiers[requiredTier]?.level || 0;
+        
+        if (userTierLevel < requiredLevel) {
+            return res.status(403).json({ error: 'Insufficient permissions' });
+        }
+        next();
+    };
+};
+
+// Login endpoint
+app.post('/api/auth/login', (req, res) => {
+    try {
+        const { key } = req.body;
+        if (!key) return res.status(400).json({ error: 'Key is required' });
+
+        if (!fs.existsSync(keysPath)) {
+            return res.status(400).json({ error: 'Invalid key' });
+        }
+
+        const keysData = JSON.parse(fs.readFileSync(keysPath, 'utf8'));
+        const validKey = keysData.keys.find(k => k.key === key && k.active && !k.usedBy);
+        
+        if (!validKey) {
+            return res.status(400).json({ error: 'Invalid or already used key' });
+        }
+
+        // Create new user with tier from key
+        const userId = `user_${crypto.randomBytes(8).toString('hex')}`;
+        const userData = fs.existsSync(usersPath)
+            ? JSON.parse(fs.readFileSync(usersPath, 'utf8'))
+            : { users: [] };
+
+        const newUser = {
+            id: userId,
+            username: `User_${userId.slice(-6)}`,
+            tier: validKey.tier,
+            createdAt: new Date().toISOString(),
+            accounts: []
+        };
+
+        userData.users.push(newUser);
+        fs.writeFileSync(usersPath, JSON.stringify(userData, null, 2), 'utf8');
+
+        // Mark key as used
+        validKey.usedBy = userId;
+        validKey.usedAt = new Date().toISOString();
+        fs.writeFileSync(keysPath, JSON.stringify(keysData, null, 2), 'utf8');
+
+        res.json({ success: true, userId, user: newUser });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Get current user
+app.get('/api/auth/me', authMiddleware, (req, res) => {
+    const tiers = getTiers();
+    res.json({
+        user: req.user,
+        tier: tiers[req.user.tier] || {}
+    });
+});
+
+// Get all tiers
+app.get('/api/tiers', (req, res) => {
+    try {
+        const tiers = getTiers();
+        res.json(tiers);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Generate new key (Admin/Owner only)
+app.post('/api/keys/generate', authMiddleware, tierCheck('admin'), (req, res) => {
+    try {
+        const { tier, count } = req.body;
+        if (!tier || !count) {
+            return res.status(400).json({ error: 'Tier and count are required' });
+        }
+
+        const keysData = fs.existsSync(keysPath)
+            ? JSON.parse(fs.readFileSync(keysPath, 'utf8'))
+            : { keys: [] };
+
+        const newKeys = [];
+        for (let i = 0; i < count; i++) {
+            const keyCode = `${tier.toUpperCase()}-${crypto.randomBytes(6).toString('hex').toUpperCase()}`;
+            newKeys.push({
+                id: `key_${crypto.randomBytes(4).toString('hex')}`,
+                key: keyCode,
+                tier,
+                createdBy: req.user.id,
+                createdAt: new Date().toISOString(),
+                usedBy: null,
+                usedAt: null,
+                active: true
+            });
+        }
+
+        keysData.keys.push(...newKeys);
+        fs.writeFileSync(keysPath, JSON.stringify(keysData, null, 2), 'utf8');
+
+        res.json({ success: true, keys: newKeys });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// List all keys (Admin/Owner only)
+app.get('/api/keys', authMiddleware, tierCheck('admin'), (req, res) => {
+    try {
+        if (!fs.existsSync(keysPath)) {
+            return res.json({ keys: [] });
+        }
+        const keysData = JSON.parse(fs.readFileSync(keysPath, 'utf8'));
+        res.json(keysData);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+const playlistPath = path.resolve(__dirname, './data/playlist.json');
+
+app.get('/api/music/playlist', (req, res) => {
+    try {
+        if (!fs.existsSync(playlistPath)) {
+            return res.json({ songs: [], currentIndex: 0 });
+        }
+        res.json(JSON.parse(fs.readFileSync(playlistPath, 'utf8')));
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.post('/api/music/playlist', (req, res) => {
+    try {
+        const dir = path.dirname(playlistPath);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(playlistPath, JSON.stringify(req.body, null, 2), 'utf8');
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.post('/api/music/add', async (req, res) => {
+    try {
+        const { url } = req.body;
+        if (!url) return res.status(400).json({ error: 'URL is required' });
+        
+        // Basic YouTube URL validation
+        if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
+            return res.status(400).json({ error: 'Only YouTube URLs are supported' });
+        }
+
+        // Extract video ID
+        let videoId = '';
+        if (url.includes('youtu.be/')) {
+            videoId = url.split('youtu.be/')[1].split('?')[0];
+        } else if (url.includes('v=')) {
+            videoId = url.split('v=')[1].split('&')[0];
+        }
+
+        if (!videoId) return res.status(400).json({ error: 'Invalid YouTube URL' });
+
+        const playlistData = fs.existsSync(playlistPath) 
+            ? JSON.parse(fs.readFileSync(playlistPath, 'utf8'))
+            : { songs: [], currentIndex: 0 };
+
+        const newSong = {
+            id: Date.now(),
+            title: `Video ${videoId}`,
+            url: url,
+            thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+            duration: '180'
+        };
+
+        playlistData.songs.push(newSong);
+        fs.writeFileSync(playlistPath, JSON.stringify(playlistData, null, 2), 'utf8');
+        
+        res.json({ success: true, song: newSong });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
