@@ -315,6 +315,23 @@
     </div>
   </div>
 
+  <!-- LOGIN MODAL -->
+  <div id="login-modal" class="modal" style="display: none;">
+    <div class="modal-content glass-bg">
+      <h2>Đăng Nhập Hệ Thống</h2>
+      <p class="subtitle">Nhập khóa cấp bậc để truy cập</p>
+      <input type="password" id="login-key" placeholder="Nhập khóa kích hoạt..." class="modal-input">
+      <div class="modal-buttons">
+        <button id="btn-login" class="btn primary">Đăng Nhập</button>
+        <button id="btn-logout" class="btn danger" style="display:none;">Đăng Xuất</button>
+      </div>
+      <div id="user-info" style="display:none; margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 8px;">
+        <p style="margin: 0 0 0.5rem 0;"><strong>Người dùng:</strong> <span id="username-display"></span></p>
+        <p style="margin: 0;"><strong>Cấp bậc:</strong> <span id="tier-display"></span></p>
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast">Trạng thái đã được phản hồi</div>
 
   <script src="app.js"></script>

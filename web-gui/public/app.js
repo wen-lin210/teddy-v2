@@ -1,4 +1,96 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ===== AUTH & TIER =====
+    const loginModal = document.getElementById('login-modal');
+    const loginKeyInput = document.getElementById('login-key');
+    const btnLogin = document.getElementById('btn-login');
+    const btnLogout = document.getElementById('btn-logout');
+    const userInfo = document.getElementById('user-info');
+    const usernameDisplay = document.getElementById('username-display');
+    const tierDisplay = document.getElementById('tier-display');
+
+    let currentUser = null;
+    let currentTier = null;
+
+    const loadUserFromStorage = () => {
+        const stored = localStorage.getItem('user');
+        const storedTier = localStorage.getItem('tier');
+        if (stored && storedTier) {
+            currentUser = JSON.parse(stored);
+            currentTier = JSON.parse(storedTier);
+            updateAuthUI();
+            loginModal.style.display = 'none';
+            return true;
+        }
+        return false;
+    };
+
+    const updateAuthUI = () => {
+        if (currentUser) {
+            usernameDisplay.textContent = currentUser.username;
+            tierDisplay.textContent = currentTier.name || currentUser.tier;
+            userInfo.style.display = 'block';
+            btnLogin.style.display = 'none';
+            btnLogout.style.display = 'block';
+            loginKeyInput.style.display = 'none';
+        } else {
+            userInfo.style.display = 'none';
+            btnLogin.style.display = 'block';
+            btnLogout.style.display = 'none';
+            loginKeyInput.style.display = 'block';
+        }
+    };
+
+    btnLogin.addEventListener('click', async () => {
+        const key = loginKeyInput.value.trim();
+        if (!key) {
+            alert('Vui lòng nhập khóa');
+            return;
+        }
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                currentUser = data.user;
+                const tiersRes = await fetch('/api/tiers');
+                const tiers = await tiersRes.json();
+                currentTier = tiers[data.user.tier];
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                localStorage.setItem('tier', JSON.stringify(currentTier));
+                updateAuthUI();
+                loginModal.style.display = 'none';
+                showToast('Đăng nhập thành công!');
+            } else {
+                alert('Khóa không hợp lệ: ' + data.error);
+            }
+        } catch (e) {
+            alert('Lỗi đăng nhập: ' + e.message);
+        }
+    });
+
+    btnLogout.addEventListener('click', () => {
+        currentUser = null;
+        currentTier = null;
+        localStorage.removeItem('user');
+        localStorage.removeItem('tier');
+        updateAuthUI();
+        loginModal.style.display = 'flex';
+        loginKeyInput.value = '';
+        showToast('Đã đăng xuất');
+    });
+
+    loginKeyInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') btnLogin.click();
+    });
+
+    // Show login if not authenticated
+    if (!loadUserFromStorage()) {
+        loginModal.style.display = 'flex';
+    }
+
     const navBtns = document.querySelectorAll('.nav-btn');
     const views = document.querySelectorAll('.page-view');
     const toast = document.getElementById('toast');
