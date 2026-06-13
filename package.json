@@ -1,23 +1,24 @@
 {
-  "name": "ᴛᴇᴅᴅʏ-ᴠ𝟤 ʙᴏᴛ",
-  "version": "1.0.0",
-  "description": "ᴛᴇᴅᴅʏ-ᴠ𝟤 ʙᴏᴛ is a utility for mass spamming and cursing others in messager group mailboxes developed by NhatVu",
+  "name": "teddy-v2-bot",
+  "version": "2.0.0",
+  "description": "Teddy Bot V2 - Advanced Facebook Messenger Bot Management Panel with Liquid Glass UI, 4-Tier Authentication, Music Player, and Admin Controls",
   "keywords": [
-    "NhatVu",
-    "spam",
+    "WenLin",
+    "TeddyBot",
     "messenger",
-    "Alphabot"
+    "bot-management",
+    "panel"
   ],
-  "homepage": "https://github.com/nhatvu2003/Alphabot-V2#readme",
+  "homepage": "https://github.com/wen-lin210/teddy-v2#readme",
   "bugs": {
-    "url": "https://github.com/nhatvu2003/Alphabot-V2/issues"
+    "url": "https://github.com/wen-lin210/teddy-v2/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nhatvu2003/Alphabot-V2.git"
+    "url": "git+https://github.com/wen-lin210/teddy-v2.git"
   },
   "license": "MIT",
-  "author": "Nhat Vu",
+  "author": "Wen Lin",
   "type": "module",
   "main": "index.js",
   "scripts": {
