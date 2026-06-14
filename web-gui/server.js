@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'teddy-bot-super-secret-key-change-in-production';
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -710,7 +710,13 @@ const openBrowser = (url) => {
 const startServer = (port) => {
     app.listen(port, () => {
         const url = `http://localhost:${port}`;
-        console.log(`Web GUI Launcher running at ${url}`);
+        console.log(`\n========================================`);
+        console.log(`✓ Teddy Bot V2 - Web Panel Started`);
+        console.log(`Port: ${port}`);
+        console.log(`Local: ${url}`);
+        console.log(`Auth: ${url}/auth.html`);
+        console.log(`Dashboard: ${url}/dashboard.html`);
+        console.log(`========================================\n`);
         openBrowser(url);
     }).on('error', (err) => {
         if (err.code === 'EADDRINUSE') {
