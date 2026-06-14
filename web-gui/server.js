@@ -7,12 +7,15 @@ import { fileURLToPath } from 'url';
 import axios from 'axios';
 import AdmZip from 'adm-zip';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'teddy-bot-super-secret-key-change-in-production';
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -296,6 +299,170 @@ app.get('/api/threads', (req, res) => {
     try {
         if (!fs.existsSync(threadsPath)) return res.json({});
         res.json(JSON.parse(fs.readFileSync(threadsPath, 'utf8')));
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// ===== JWT AUTH - SIGNUP/LOGIN =====
+
+// Helper to load users
+const getUsers = () => {
+    try {
+        if (!fs.existsSync(usersPath)) return { users: [] };
+        return JSON.parse(fs.readFileSync(usersPath, 'utf8'));
+    } catch (e) {
+        return { users: [] };
+    }
+};
+
+// Save users
+const saveUsers = (data) => {
+    const dir = path.dirname(usersPath);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(usersPath, JSON.stringify(data, null, 2), 'utf8');
+};
+
+// JWT middleware
+const verifyToken = (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'Token required' });
+    
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (e) {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+};
+
+// SIGNUP endpoint
+app.post('/api/auth/signup', async (req, res) => {
+    try {
+        const { email, password, username } = req.body;
+        
+        if (!email || !password || !username) {
+            return res.status(400).json({ error: 'Email, password, and username required' });
+        }
+
+        const users = getUsers();
+        
+        // Check if email exists
+        if (users.users.find(u => u.email === email)) {
+            return res.status(400).json({ error: 'Email already registered' });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        // Create new user as Member tier
+        const newUser = {
+            id: `user_${crypto.randomBytes(8).toString('hex')}`,
+            email,
+            password: hashedPassword,
+            username,
+            tier: 'member',
+            createdAt: new Date().toISOString(),
+            lastLogin: new Date().toISOString(),
+            accounts: [],
+            isActive: true
+        };
+
+        users.users.push(newUser);
+        saveUsers(users);
+
+        // Generate token
+        const token = jwt.sign({
+            id: newUser.id,
+            email: newUser.email,
+            tier: newUser.tier,
+            username: newUser.username
+        }, JWT_SECRET, { expiresIn: '30d' });
+
+        res.json({
+            success: true,
+            token,
+            user: {
+                id: newUser.id,
+                email: newUser.email,
+                username: newUser.username,
+                tier: newUser.tier
+            }
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// LOGIN endpoint
+app.post('/api/auth/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password required' });
+        }
+
+        const users = getUsers();
+        const user = users.users.find(u => u.email === email);
+
+        if (!user) {
+            return res.status(400).json({ error: 'Email or password incorrect' });
+        }
+
+        // Check password
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return res.status(400).json({ error: 'Email or password incorrect' });
+        }
+
+        // Update last login
+        user.lastLogin = new Date().toISOString();
+        saveUsers(users);
+
+        // Generate token
+        const token = jwt.sign({
+            id: user.id,
+            email: user.email,
+            tier: user.tier,
+            username: user.username
+        }, JWT_SECRET, { expiresIn: '30d' });
+
+        res.json({
+            success: true,
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                tier: user.tier
+            }
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Get current user info
+app.get('/api/auth/me', verifyToken, (req, res) => {
+    try {
+        const users = getUsers();
+        const user = users.users.find(u => u.id === req.user.id);
+        
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        const tiers = getTiers();
+        res.json({
+            user: {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                tier: user.tier,
+                accounts: user.accounts
+            },
+            tierInfo: tiers[user.tier] || {}
+        });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }

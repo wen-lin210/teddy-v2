@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teddy Bot - Quản Lý Bot Facebook</title>
+    <link rel="icon" type="image/jpeg" href="/images/profile.jpg">
+    <link rel="stylesheet" href="/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Left side - Brand -->
+        <div class="auth-left">
+            <div class="brand-section">
+                <div class="logo-circle">
+                    <img src="/images/profile.jpg" alt="Teddy Bot" class="logo-img">
+                </div>
+                <h1 class="brand-title">Teddy Bot</h1>
+                <p class="brand-subtitle">Quản Lý Bot Facebook Chuyên Nghiệp</p>
+                <p class="brand-description">Công cụ quản lý messenger bot với giao diện sang trọng, bảo mật cao, và tính năng quản lý toàn diện.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Cookie/Appstate Management</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Quản Lý Nhóm & Hộp Tin</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Trình Phát Nhạc YouTube</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">✓</span>
+                        <span>Hệ Thống Tier & Quyền Hạn</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right side - Form -->
+        <div class="auth-right">
+            <div class="form-wrapper">
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form active">
+                    <h2>Đăng Nhập</h2>
+                    <p class="form-subtitle">Nhập thông tin tài khoản của bạn</p>
+                    
+                    <form id="login-fields" class="form-fields">
+                        <div class="input-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="login-password">Mật Khẩu</label>
+                            <input type="password" id="login-password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Đăng Nhập</button>
+                    </form>
+
+                    <div class="auth-divider">
+                        <span>hoặc</span>
+                    </div>
+
+                    <p class="form-switch">
+                        Chưa có tài khoản?
+                        <button type="button" class="link-btn" onclick="switchForm('signup')">Đăng Ký Ngay</button>
+                    </p>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signup-form" class="auth-form">
+                    <h2>Đăng Ký Tài Khoản</h2>
+                    <p class="form-subtitle">Tạo tài khoản mới để bắt đầu</p>
+                    
+                    <form id="signup-fields" class="form-fields">
+                        <div class="input-group">
+                            <label for="signup-username">Tên Người Dùng</label>
+                            <input type="text" id="signup-username" placeholder="yourname" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="signup-password">Mật Khẩu</label>
+                            <input type="password" id="signup-password" placeholder="••••••••" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="signup-confirm">Xác Nhận Mật Khẩu</label>
+                            <input type="password" id="signup-confirm" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Tạo Tài Khoản</button>
+                    </form>
+
+                    <div class="auth-divider">
+                        <span>hoặc</span>
+                    </div>
+
+                    <p class="form-switch">
+                        Đã có tài khoản?
+                        <button type="button" class="link-btn" onclick="switchForm('login')">Đăng Nhập</button>
+                    </p>
+                </div>
+
+                <!-- Error message -->
+                <div id="error-message" class="error-message"></div>
+                <!-- Success message -->
+                <div id="success-message" class="success-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/auth.js"></script>
+</body>
+</html>

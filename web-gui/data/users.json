@@ -1,12 +1,15 @@
 {
   "users": [
     {
-      "id": "owner_001",
-      "username": "Owner",
-      "email": "owner@example.com",
+      "id": "user_admin_wenlin",
+      "email": "admin@teddy-bot.com",
+      "password": "$2a$10$R9h7cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ae6IeIGEjwMK2NG6",
+      "username": "WenLin",
       "tier": "owner",
       "createdAt": "2024-01-01T00:00:00Z",
-      "accounts": []
+      "lastLogin": "2024-01-01T00:00:00Z",
+      "accounts": [],
+      "isActive": true
     }
   ]
 }
