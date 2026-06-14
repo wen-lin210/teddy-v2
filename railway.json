@@ -1,0 +1,16 @@
+{
+  "name": "Teddy Bot V2",
+  "build": {
+    "builder": "nixpacks"
+  },
+  "deploy": {
+    "startCommand": "cd web-gui && node server.js",
+    "restartPolicyCondition": "any",
+    "restartPolicyMaxRetries": 5
+  },
+  "env": {
+    "PORT": "3000",
+    "JWT_SECRET": "change-me-in-production",
+    "NODE_ENV": "production"
+  }
+}

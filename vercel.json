@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "buildCommand": "npm install",
+  "env": {
+    "JWT_SECRET": "@jwt_secret",
+    "PORT": "3000",
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "web-gui/server.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/web-gui/server.js"
+    }
+  ],
+  "crons": []
+}
