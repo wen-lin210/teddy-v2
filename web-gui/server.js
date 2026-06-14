@@ -17,8 +17,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'teddy-bot-super-secret-key-change-in-production';
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Parse JSON requests BEFORE static files
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// Serve static files AFTER JSON parsing
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Helper paths
 const usersPath = path.resolve(__dirname, './data/users.json');
