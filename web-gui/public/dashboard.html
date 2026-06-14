@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teddy Bot - Dashboard</title>
+    <link rel="icon" type="image/jpeg" href="/images/profile.jpg">
+    <link rel="stylesheet" href="/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="/images/profile.jpg" alt="Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>Teddy Bot</h1>
+                    <p>v2.0</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                <span class="icon">⚡</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#music" class="nav-link" data-page="music">
+                <span class="icon">🎵</span>
+                <span>Nhạc</span>
+            </a>
+            <a href="#accounts" class="nav-link" data-page="accounts">
+                <span class="icon">👤</span>
+                <span>Tài Khoản</span>
+            </a>
+            <a href="#commands" class="nav-link" data-page="commands">
+                <span class="icon">⚙️</span>
+                <span>Lệnh</span>
+            </a>
+            <a href="#groups" class="nav-link" data-page="groups">
+                <span class="icon">👥</span>
+                <span>Nhóm & Hộp</span>
+            </a>
+            <a href="#settings" class="nav-link" data-page="settings">
+                <span class="icon">🔧</span>
+                <span>Cấu Hình</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <img src="/images/profile.jpg" alt="User" class="user-avatar">
+                <div class="user-info">
+                    <p class="user-name" id="sidebar-username">User</p>
+                    <p class="user-tier" id="sidebar-tier">Member</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout">Đăng Xuất</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <h2 id="page-title">Dashboard</h2>
+            </div>
+            <div class="header-right">
+                <div class="notifications">
+                    <button class="notif-btn">🔔</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Pages -->
+        <div class="pages-container">
+            <!-- Dashboard Page -->
+            <div id="page-dashboard" class="page active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Trạng Thái Bot</p>
+                            <p class="stat-value" id="bot-status">Tắt</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Tài Khoản</p>
+                            <p class="stat-value" id="account-count">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👫</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Nhóm</p>
+                            <p class="stat-value" id="group-count">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-content">
+                            <p class="stat-label">Hoạt Động</p>
+                            <p class="stat-value" id="uptime">00:00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Điều Khiển Bot</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="button-group">
+                                <button class="btn btn-success" id="btn-start">▶ Bật Bot</button>
+                                <button class="btn btn-danger" id="btn-stop">⏹ Tắt Bot</button>
+                                <button class="btn btn-primary" id="btn-restart">🔄 Khởi Động Lại</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Thông Tin Hệ Thống</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-item">
+                                <span class="label">Hệ Điều Hành:</span>
+                                <span class="value" id="os-info">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Phiên Bản:</span>
+                                <span class="value">2.0.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Music Page -->
+            <div id="page-music" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Trình Phát Nhạc</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Tính năng nhạc sẽ có sẵn sớm...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accounts Page -->
+            <div id="page-accounts" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Quản Lý Tài Khoản</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Quản lý các tài khoản Facebook sẽ có sẵn sớm...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commands Page -->
+            <div id="page-commands" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Lệnh Bot</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Quản lý lệnh bot sẽ có sẵn sớm...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Groups Page -->
+            <div id="page-groups" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Nhóm & Hộp Tin</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Danh sách nhóm sẽ có sẵn sớm...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="page-settings" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Cấu Hình Chung</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-group">
+                            <label for="theme-select">Chủ Đề:</label>
+                            <select id="theme-select" class="select-input">
+                                <option value="dark">Tối (Dark)</option>
+                                <option value="light">Sáng (Light)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card danger-zone">
+                    <div class="card-header">
+                        <h3>Nguy Hiểm</h3>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-danger" id="btn-clear-cache">Xóa Cache</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/dashboard.js"></script>
+</body>
+</html>
