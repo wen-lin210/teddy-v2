@@ -2,7 +2,7 @@
 window.addEventListener('load', () => {
     const token = localStorage.getItem('token');
     if (!token) {
-        window.location.href = '/auth.html';
+        window.location.href = './auth.html';
         return;
     }
     
@@ -37,7 +37,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
 document.getElementById('btn-logout').addEventListener('click', () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = '/auth.html';
+    window.location.href = './auth.html';
 });
 
 // Bot Controls
@@ -101,7 +101,7 @@ document.getElementById('btn-clear-cache').addEventListener('click', () => {
         localStorage.clear();
         sessionStorage.clear();
         alert('Cache đã xóa');
-        window.location.href = '/auth.html';
+        window.location.href = './auth.html';
     }
 });
 

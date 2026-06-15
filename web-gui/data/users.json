@@ -10,6 +10,50 @@
       "lastLogin": "2024-01-01T00:00:00Z",
       "accounts": [],
       "isActive": true
+    },
+    {
+      "id": "user_2dc99c7b9f005bef",
+      "email": "test@example.com",
+      "password": "$2b$10$qGrRIrtORJ8HuYgyWEeCAOuXhl2aXkdT.IrjFtNF.kSZ/ZDPZcvlW",
+      "username": "testuser",
+      "tier": "member",
+      "createdAt": "2026-06-15T09:53:22.629Z",
+      "lastLogin": "2026-06-15T09:53:25.909Z",
+      "accounts": [],
+      "isActive": true
+    },
+    {
+      "id": "user_1447fb56a9c99afb",
+      "email": "newuser@example.com",
+      "password": "$2b$10$kKYFge0tFjm9txdJEEhUNOqczp9y2pufs2vedlpa6vmyHAoi3nkdG",
+      "username": "newuser",
+      "tier": "member",
+      "createdAt": "2026-06-15T09:53:52.075Z",
+      "lastLogin": "2026-06-15T09:56:46.807Z",
+      "accounts": [],
+      "isActive": true
+    },
+    {
+      "id": "user_f738ffc5125e35c8",
+      "email": "testbot@example.com",
+      "password": "$2b$10$LNuqYV48BnG7xYbQV0gv9.nUVuh8Nf.xqpUZxYJMNDsDbYWwOWPCO",
+      "username": "testbot2025",
+      "tier": "member",
+      "createdAt": "2026-06-15T09:58:55.441Z",
+      "lastLogin": "2026-06-15T09:58:55.441Z",
+      "accounts": [],
+      "isActive": true
+    },
+    {
+      "id": "user_7e927c89a4d1a5f1",
+      "email": "brand.new@test.com",
+      "password": "$2b$10$o.z1HRTnzu7Euot1Gcc1I.dD2NDAFkqFUqqofCKXrWjk6RHa4agJ2",
+      "username": "brandnewuser",
+      "tier": "member",
+      "createdAt": "2026-06-15T09:59:13.216Z",
+      "lastLogin": "2026-06-15T09:59:24.709Z",
+      "accounts": [],
+      "isActive": true
     }
   ]
 }

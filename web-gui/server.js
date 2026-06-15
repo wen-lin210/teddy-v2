@@ -19,6 +19,12 @@ const JWT_SECRET = process.env.JWT_SECRET || 'teddy-bot-super-secret-key-change-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Redirect root to auth.html
+app.get('/', (req, res) => {
+    res.redirect('/auth.html');
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Helper paths
