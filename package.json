@@ -1,0 +1,62 @@
+{
+  "name": "Alphabot-V2",
+  "version": "1.0.0",
+  "description": "Alphabot is a utility for mass spamming and cursing others in messager group mailboxes developed by NhatVu",
+  "keywords": [
+    "NhatVu",
+    "spam",
+    "messenger",
+    "Alphabot"
+  ],
+  "homepage": "https://github.com/nhatvu2003/Alphabot-V2#readme",
+  "bugs": {
+    "url": "https://github.com/nhatvu2003/Alphabot-V2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nhatvu2003/Alphabot-V2.git"
+  },
+  "license": "MIT",
+  "author": "Nhat Vu",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node web-gui/server.js"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "axios": "^1.4.0",
+    "center-align": "^1.0.1",
+    "chalk": "^4.1.2",
+    "chalkercli": "^1.6.4",
+    "cheerio": "^0.22.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.9.0",
+    "firebase-admin": "^13.6.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "gradient-string": "^2.0.2",
+    "helmet": "^7.0.0",
+    "https-proxy-agent": "^4.0.0",
+    "inquirer": "^5.0.0",
+    "js-yaml": "^4.1.0",
+    "moment-timezone": "^0.5.43",
+    "mongoose": "^7.4.4",
+    "mqtt": "^3.0.0",
+    "node-cron": "^3.0.2",
+    "node-telegram-bot-api": "^0.64.0",
+    "ora": "^5.0.0",
+    "prompt-sync": "^4.2.0",
+    "request": "^2.88.2",
+    "semver": "^7.5.4",
+    "string-similarity": "^4.0.4",
+    "totp-generator": "^0.0.14",
+    "websocket-stream": "^5.5.0",
+    "wikijs": "^6.4.1",
+    "ytdl-core": "^4.11.5"
+  }
+}
